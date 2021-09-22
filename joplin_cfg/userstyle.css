@@ -1,0 +1,59 @@
+
+body {
+    font-family: Consolas, 'Times New Roman', Times;
+    color: #34495e;
+    line-height: 1.6rem;
+    letter-spacing: 0;
+    margin: 0;
+    overflow-x: hidden;
+    color: #ffffff;
+}
+h1 {
+    margin: 50px 0 0 0;
+}
+
+/*分割线:*/
+hr {
+    height: 3px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+/*>区块:*/
+blockquote {
+    border-left: 2px solid #42b983;
+    color: #ffddbb;
+    background-color: #37393a;
+    border-left-color: #ecf0f3;
+}
+
+/*粗体字:*/
+strong {
+    color:#FF9933;
+    size: 100px;
+    margin: 0em;
+    font-style: bold;
+}
+
+/*超链接文本:*/
+a {
+    color: #999966;
+    font-weight: 600;
+    padding: 0 2px;
+    text-decoration: none;
+    font-style: italic;
+}
+
+/*代码块:*/
+pre, code, .inline-code {
+	font-family: Consolas;
+	font-size: 15px;
+	border-radius: 5px;
+	white-space: pre-wrap;       
+	line-height: 1.5;
+	counter-reset: line;
+}
