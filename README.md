@@ -1,2 +1,4 @@
 # SyncFiles
-Some text files to synchronize
+
+各类常用配置文件的同步
+
