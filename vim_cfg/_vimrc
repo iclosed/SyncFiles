@@ -14,7 +14,7 @@ set noerrorbells
 "set foldlevel=2
 
 " 设置配色方案
-colorscheme molokai
+"colorscheme molokai
 
 "字体 
 if (has("gui_running")) 
