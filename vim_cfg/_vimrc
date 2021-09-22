@@ -1,0 +1,188 @@
+" Vim with all enhancements
+source $VIMRUNTIME/vimrc_example.vim
+
+" set shortmess=atI    " 启动时不显示救援提示
+set lines=45 columns=165    " 设定窗口大小  
+winpos 220 80         " 设定窗口位置  
+
+set novisualbell
+set noerrorbells
+
+"set foldmethod=indent
+"set foldnestmax=10
+"set nofoldenable
+"set foldlevel=2
+
+" 设置配色方案
+colorscheme molokai
+
+"字体 
+if (has("gui_running")) 
+	"set guifont=Bitstream\ Vera\ Sans\ Mono\ 10
+	set guifont=Consolas:h12:cANSI   " 设置字体
+endif 
+
+"编码设置
+set fileencodings=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
+
+"共享剪贴板  
+set clipboard+=unnamed 
+
+set autoread				" 自动重载修改
+set cursorline              " 突出显示当前行
+set magic                   " pattern search
+set guioptions-=T           " 隐藏工具栏
+"set guioptions-=m           " 隐藏菜单栏
+
+" 不要使用vi的键盘模式，而是vim自己的
+set nocompatible
+
+" 语法高亮
+set syntax=on
+
+" 在处理未保存或只读文件的时候，弹出确认
+set confirm
+
+" 显示非可见字符
+set list
+"set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+set listchars=tab:>-,trail:~,extends:>,precedes:<
+
+" 显示行号
+set number
+
+" 不自动折行
+set nowrap
+
+"禁止生成临时文件
+set noundofile
+set nobackup
+set noswapfile
+
+"搜索忽略大小写
+set ignorecase
+
+" 命令行
+set showcmd
+set cmdheight=2
+
+" 侦测文件类型
+filetype on
+
+" 缩进Tab相关
+set autoindent
+"set smarttab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set noexpandtab
+"set expandtab
+
+" 使退格键正常处理indent, eol, start
+set backspace=2
+
+" 高亮显示匹配的括号
+set showmatch
+
+" 光标移动到buffer的顶部和底部时的距离
+set scrolloff=1
+
+
+"自动补全
+:inoremap ( ()<ESC>i
+:inoremap ) <c-r>=ClosePair(')')<CR>
+:inoremap [ []<ESC>i
+:inoremap ] <c-r>=ClosePair(']')<CR>
+:inoremap { {<CR>}<ESC>O
+:inoremap } <c-r>=ClosePair('}')<CR>
+":inoremap " ""<ESC>i
+":inoremap ' ''<ESC>i
+
+function! ClosePair(char)
+	if getline('.')[col('.') - 1] == a:char
+		return "\<Right>"
+	else
+		return a:char
+	endif
+endfunction
+
+
+" 总是显示状态行:
+set laststatus=2
+
+" 状态行显示的内容
+"set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [POS=%l,%v,%p%%]\ [TIME=%{strftime(\"%y-%m-%d\ %H:%M\")}]
+set statusline=
+set statusline+=%1*\ %n\ %* "buffer number
+set statusline+=%4*\ %<%F%* "full path
+set statusline+=%3*\ %y%* "file type
+set statusline+=%5*\ %{&ff}%* "file format
+set statusline+=%4*\ %{''.(&fenc!=''?&fenc:&enc).''} "Encoding
+set statusline+=%2*\ %m%r%w%* "Modified? Readonly?
+set statusline+=%1*\ %=line:%l%* "current line
+set statusline+=%2*/%L%* "total lines
+set statusline+=%4*\(%P) "percentage(%)
+set statusline+=%3*\ col:%v "current col
+set statusline+=%5*\ [%{strftime(\"%y-%m-%d\ %H:%M\")}] "time
+hi User1 guifg=#eea040 guibg=#444444
+hi User2 guifg=#dd3333 guibg=#444444
+hi User3 guifg=#ff66ff guibg=#444444
+hi User4 guifg=#a0ee40 guibg=#444444
+hi User5 guifg=#eeee40 guibg=#444444 gui=bold
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 键盘命令
+
+" 映射全选 ctrl+a
+map <C-A> ggVG
+map! <C-A> <esc>ggVG
+
+" 前缀键
+let mapleader=","
+nmap <leader>w :w!<cr>
+nmap <leader>q :q!<cr>
+nmap <leader>ev :vsp $MYVIMRC<cr>
+nmap <leader>sv :source $MYVIMRC<cr>
+nmap <leader>sh <C-w>h<cr>
+nmap <leader>sl <C-w>l<cr>
+nmap <leader>sj <C-w>j<cr>
+nmap <leader>sk <C-w>k<cr>
+
+"Alt+(num)切换tabs
+function! TabPos_ActivateBuffer(num)
+	let s:count = a:num
+	exe "tabfirst"
+	exe "tabnext"  s:count
+endfunction
+function! TabPos_Initialize()  
+	for i in range(1, 9)
+		exe "map <M-" . i . "> :call TabPos_ActivateBuffer(" . i . ")<CR>"
+	endfor
+	exe "map <M-0> :tablast<CR>"
+endfunction
+autocmd VimEnter * call TabPos_Initialize()
+
+"默认垂直分割窗口
+autocmd WinNew * wincmd L
+
+"对齐indent
+map <F12> gg=G
+
+"新建标签  
+map <F2> :tabnew<CR>  
+
+"列出当前目录文件  
+map <F3> :tabnew .<CR>  
+
+"Python代码调试
+autocmd FileType python map <buffer> <C-B> :w<CR>:exec '!python' shellescape(@%, 1)<CR>
+autocmd FileType python imap <buffer> <C-B> <esc>:w<CR>:exec '!python' shellescape(@%, 1)<CR>
+
+"注释添加井号
+nmap <C-v> ^i#<Esc>j
+imap <C-v> <esc>^i#<Esc>j
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
